@@ -8,7 +8,7 @@ public class RestaurantRequestDto {
 
     private String name;
 
-    private String minOrderPrice;
+    private Integer minOrderPrice;
 
-    private String deliveryFee;
+    private Integer deliveryFee;
 }

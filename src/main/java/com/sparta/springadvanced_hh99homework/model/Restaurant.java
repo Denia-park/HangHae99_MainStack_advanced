@@ -1,11 +1,14 @@
 package com.sparta.springadvanced_hh99homework.model;
 
+import com.sparta.springadvanced_hh99homework.dto.RestaurantRequestDto;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Getter
 @Entity
+@NoArgsConstructor
 public class Restaurant {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
@@ -15,8 +18,14 @@ public class Restaurant {
     private String name;
 
     @Column(nullable = false)
-    private String minOrderPrice;
+    private Integer minOrderPrice;
 
     @Column(nullable = false)
-    private String deliveryFee;
+    private Integer deliveryFee;
+
+    public Restaurant(RestaurantRequestDto requestDto) {
+        this.name = requestDto.getName();
+        this.minOrderPrice = requestDto.getMinOrderPrice();
+        this.deliveryFee = requestDto.getDeliveryFee();
+    }
 }

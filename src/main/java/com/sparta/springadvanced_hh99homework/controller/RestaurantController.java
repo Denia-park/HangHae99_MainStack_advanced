@@ -17,8 +17,7 @@ public class RestaurantController {
 
     @PostMapping("/restaurant/register")
     public void registerRestaurant(@RequestBody RestaurantRequestDto requestDto){
-        System.out.println("받은 값 :" + requestDto.getId() + " / " + requestDto.getName()+" / "+requestDto.getDeliveryFee()+" / "+requestDto.getMinOrderPrice());
-
+        restaurantService.registerRestaurant(requestDto);
     }
 
     @GetMapping("/restaurants")
