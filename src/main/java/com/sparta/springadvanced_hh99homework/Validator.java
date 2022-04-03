@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Validator {
-    private final String RESTAURANT_HANGUL = "음식점";
-    private final String FOOD_HANGUL = "음식";
+    private final String RESTAURANT_HANGUL = "음식점 : ";
+    private final String FOOD_HANGUL = "음식 : ";
 
     public void validateInput(Restaurant receivedRestaurant) {
         if (!isValidName(receivedRestaurant.getName())) {
@@ -54,8 +54,9 @@ public class Validator {
 
     private boolean isValidPrice(Integer price) {
         // 허용값: 100원 ~ 1,000,000원
-        if(  100 <= price && price <=  1_000_000)
+        if (100 <= price && price <= 1_000_000)
             return true;
+
 
         // 100 원 단위로만 입력 가능 (예. 2,220원 입력 시 에러발생. 2,300원 입력 가능)
         if(price % 100 == 0)
@@ -65,11 +66,11 @@ public class Validator {
     }
 
     public void validateInput(Food receivedFood) {
-        if (isValidName(receivedFood.getName())) {
+        if (!isValidName(receivedFood.getName())) {
             throw new IllegalReceiveException(FOOD_HANGUL + "이름을 입력해주세요");
         }
 
-        if (isValidPrice(receivedFood.getPrice())) {
+        if (!isValidPrice(receivedFood.getPrice())) {
             throw new IllegalReceiveException(FOOD_HANGUL + "가격 에러");
         }
     }
