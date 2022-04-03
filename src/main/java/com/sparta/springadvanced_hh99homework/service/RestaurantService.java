@@ -23,6 +23,9 @@ public class RestaurantService {
     public void registerRestaurant(RestaurantRequestDto requestDto) {
         validator.validateRestaurantInput(requestDto);
 
+        if(restaurantRepository.existsByName(requestDto.getName()))
+            throw new IllegalStateException("해당 음식점의 이름이 이미 존재합니다.");
+
         Restaurant restaurant = new Restaurant(requestDto);
 
         restaurantRepository.save(restaurant);
