@@ -8,6 +8,8 @@ import com.sun.nio.sctp.IllegalReceiveException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RestaurantService {
     private final RestaurantRepository restaurantRepository;
@@ -29,5 +31,9 @@ public class RestaurantService {
         Restaurant restaurant = new Restaurant(requestDto);
 
         restaurantRepository.save(restaurant);
+    }
+
+    public List<Restaurant> getRestaurants() {
+        return restaurantRepository.findAll();
     }
 }
