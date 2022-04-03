@@ -29,40 +29,21 @@ public class Validator {
     }
 
     private boolean isValidMinOrderPrice(Integer minOrderPrice) {
-        // 허용값: 1,000원 ~ 100,000원 입력
-        if(  1_000 <= minOrderPrice && minOrderPrice <= 100_000)
-            return true;
-
-        // 100 원 단위로만 입력 가능 (예. 2,220원 입력 시 에러발생. 2,300원은 입력 가능)
-        if(minOrderPrice % 100 == 0)
-            return true;
-
-        return false;
+        //1. 허용값: 1,000원 ~ 100,000원 입력
+        //2. 100 원 단위로만 입력 가능 (예. 2,220원 입력 시 에러발생. 2,300원은 입력 가능)
+        return 1_000 <= minOrderPrice && minOrderPrice <= 100_000 && minOrderPrice % 100 == 0;
     }
 
     private boolean isValidDeliveryFee(Integer deliveryFee) {
-        // 허용값: 0 ~ 10,000원 입력
-        if(  0 <= deliveryFee && deliveryFee <= 10_000)
-            return true;
-
-        // 500 원 단위로만 입력 가능 (예. 2,200원 입력 시 에러발생. 2,500원 입력 가능)
-        if(deliveryFee % 500 == 0)
-            return true;
-
-        return false;
+        // 1. 허용값: 0 ~ 10,000원 입력
+        // 2. 500 원 단위로만 입력 가능 (예. 2,200원 입력 시 에러발생. 2,500원 입력 가능)
+        return 0 <= deliveryFee && deliveryFee <= 10_000 && deliveryFee % 500 == 0;
     }
 
     private boolean isValidPrice(Integer price) {
-        // 허용값: 100원 ~ 1,000,000원
-        if (100 <= price && price <= 1_000_000)
-            return true;
-
-
-        // 100 원 단위로만 입력 가능 (예. 2,220원 입력 시 에러발생. 2,300원 입력 가능)
-        if(price % 100 == 0)
-            return true;
-
-        return false;
+        // 1. 허용값: 100원 ~ 1,000,000원
+        // 2. 100 원 단위로만 입력 가능 (예. 2,220원 입력 시 에러발생. 2,300원 입력 가능)
+        return 100 <= price && price <= 1_000_000 && price % 100 == 0;
     }
 
     public void validateInput(Food receivedFood) {
