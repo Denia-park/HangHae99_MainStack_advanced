@@ -26,7 +26,7 @@ public class FoodService {
             validator.validateInput(food);
 
             if(foodRepository.existsByRestaurantAndName(food.getRestaurant(), food.getName()))
-                throw new IllegalStateException("해당 음식점에 이름이 이미 존재합니다.");
+                throw new IllegalStateException("해당 음식점에 해당 음식 이름이 이미 존재합니다.");
 
             foodRepository.save(food);
         }
