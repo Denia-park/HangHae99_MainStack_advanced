@@ -24,7 +24,7 @@ public class RestaurantController {
     }
 
     @GetMapping("/restaurants")
-    public List<Restaurant> getRestaurants(){
+    public List<RestaurantRequestDto> getRestaurants(){
         return restaurantService.getRestaurants();
     }
 }

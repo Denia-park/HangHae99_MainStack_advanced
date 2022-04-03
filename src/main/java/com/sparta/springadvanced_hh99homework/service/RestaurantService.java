@@ -8,6 +8,7 @@ import com.sun.nio.sctp.IllegalReceiveException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,7 +34,14 @@ public class RestaurantService {
         restaurantRepository.save(restaurant);
     }
 
-    public List<Restaurant> getRestaurants() {
-        return restaurantRepository.findAll();
+    public List<RestaurantRequestDto> getRestaurants() {
+        ArrayList<RestaurantRequestDto> restaurantRequestDtoList = new ArrayList<>();
+        List<Restaurant> restaurantList = restaurantRepository.findAll();
+
+        for (Restaurant restaurant : restaurantList) {
+            restaurantRequestDtoList.add(new RestaurantRequestDto(restaurant));
+        }
+
+        return restaurantRequestDtoList;
     }
 }
