@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Getter
-@Entity
 @NoArgsConstructor
+@Entity
 public class Restaurant {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
