@@ -1,5 +1,6 @@
 package com.sparta.springadvanced_hh99homework.model;
 
+import com.sparta.springadvanced_hh99homework.dto.FoodRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,4 +23,10 @@ public class Food {
 
     @Column(nullable = false)
     private Integer price;
+
+    public Food(Restaurant restaurant, FoodRequestDto foodRequestDto) {
+        this.restaurant = restaurant;
+        this.name = foodRequestDto.getName();
+        this.price = foodRequestDto.getPrice();
+    }
 }
