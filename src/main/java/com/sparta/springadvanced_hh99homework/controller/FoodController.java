@@ -31,7 +31,7 @@ public class FoodController {
 
     @GetMapping("/restaurant/{restaurantId}/foods")
     public List<FoodResponseDto> getFoods(@PathVariable Long restaurantId){
-        return convertModelsToDtos(foodService.getRestaurants());
+        return convertModelsToDtos(foodService.getFoods(restaurantId));
     }
 
     public List<FoodResponseDto> convertModelsToDtos(List<Food> foodList){

@@ -4,9 +4,11 @@ import com.sparta.springadvanced_hh99homework.Validator;
 import com.sparta.springadvanced_hh99homework.model.Food;
 import com.sparta.springadvanced_hh99homework.model.Restaurant;
 import com.sparta.springadvanced_hh99homework.repository.FoodRepository;
+import com.sparta.springadvanced_hh99homework.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -14,11 +16,13 @@ public class FoodService {
     private final FoodRepository foodRepository;
 
     private final Validator validator;
+    private final RestaurantRepository restaurantRepository;
 
     @Autowired
-    public FoodService (FoodRepository foodRepository, Validator validator) {
+    public FoodService(FoodRepository foodRepository, Validator validator, RestaurantRepository restaurantRepository) {
         this.foodRepository = foodRepository;
         this.validator = validator;
+        this.restaurantRepository = restaurantRepository;
     }
 
     public void registerFood(List<Food> foodList) {
@@ -32,7 +36,11 @@ public class FoodService {
         }
     }
 
-    public List<Food> getRestaurants() {
-        return foodRepository.findAll();
+    public List<Food> getFoods(Long restaurantId) {
+        Restaurant findedRestaurant = restaurantRepository.findById(restaurantId).orElse(null);
+        if (findedRestaurant == null) {
+            throw new IllegalArgumentException("해당 하는 음식점 ID는 존재하지 않습니다.");
+        }
+        return foodRepository.findAllByRestaurant(findedRestaurant);
     }
 }
