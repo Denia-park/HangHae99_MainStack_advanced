@@ -21,9 +21,9 @@ public class RestaurantController {
     }
 
     @PostMapping("/restaurant/register")
-    public void registerRestaurant(@RequestBody RestaurantRequestDto requestDto){
-
-        restaurantService.registerRestaurant(convertDtoToModel(requestDto));
+    public RestaurantResponseDto registerRestaurant(@RequestBody RestaurantRequestDto requestDto){
+        Restaurant savedRestaurant = restaurantService.registerRestaurant(convertDtoToModel(requestDto));
+        return new RestaurantResponseDto(savedRestaurant);
     }
 
     @GetMapping("/restaurants")

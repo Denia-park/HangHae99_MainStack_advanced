@@ -20,13 +20,13 @@ public class RestaurantService {
         this.validator = validator;
     }
 
-    public void registerRestaurant(Restaurant receivedRestaurant) {
+    public Restaurant registerRestaurant(Restaurant receivedRestaurant) {
         validator.validateInput(receivedRestaurant);
 
         if(restaurantRepository.existsByName(receivedRestaurant.getName()))
             throw new IllegalStateException("해당 음식점의 이름이 이미 존재합니다.");
 
-        restaurantRepository.save(receivedRestaurant);
+        return restaurantRepository.save(receivedRestaurant);
     }
 
     public List<Restaurant> getRestaurants() {
