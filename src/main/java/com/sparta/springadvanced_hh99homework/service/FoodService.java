@@ -8,6 +8,7 @@ import com.sparta.springadvanced_hh99homework.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class FoodService {
         this.restaurantRepository = restaurantRepository;
     }
 
+    @Transactional
     public void registerFood(List<Food> foodList) {
         for (Food food : foodList) {
             validator.validateInput(food);
