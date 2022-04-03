@@ -23,25 +23,16 @@ public class RestaurantService {
         this.validator = validator;
     }
 
-    public void registerRestaurant(RestaurantRequestDto requestDto) {
-        validator.validateRestaurantInput(requestDto);
+    public void registerRestaurant(Restaurant receivedRestaurant) {
+        validator.validateRestaurantInput(receivedRestaurant);
 
-        if(restaurantRepository.existsByName(requestDto.getName()))
+        if(restaurantRepository.existsByName(receivedRestaurant.getName()))
             throw new IllegalStateException("해당 음식점의 이름이 이미 존재합니다.");
 
-        Restaurant restaurant = new Restaurant(requestDto);
-
-        restaurantRepository.save(restaurant);
+        restaurantRepository.save(receivedRestaurant);
     }
 
-    public List<RestaurantRequestDto> getRestaurants() {
-        ArrayList<RestaurantRequestDto> restaurantRequestDtoList = new ArrayList<>();
-        List<Restaurant> restaurantList = restaurantRepository.findAll();
-
-        for (Restaurant restaurant : restaurantList) {
-            restaurantRequestDtoList.add(new RestaurantRequestDto(restaurant));
-        }
-
-        return restaurantRequestDtoList;
+    public List<Restaurant> getRestaurants() {
+        return restaurantRepository.findAll();
     }
 }

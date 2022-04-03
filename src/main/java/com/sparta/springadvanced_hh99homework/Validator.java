@@ -1,22 +1,23 @@
 package com.sparta.springadvanced_hh99homework;
 
 import com.sparta.springadvanced_hh99homework.dto.RestaurantRequestDto;
+import com.sparta.springadvanced_hh99homework.model.Restaurant;
 import com.sun.nio.sctp.IllegalReceiveException;
 import org.springframework.stereotype.Component;
 
 @Component
 public class Validator {
 
-    public void validateRestaurantInput(RestaurantRequestDto requestDto) {
-        if (isNotValidName(requestDto.getName())) {
+    public void validateRestaurantInput(Restaurant receivedRestaurant) {
+        if (isNotValidName(receivedRestaurant.getName())) {
             throw new IllegalReceiveException("이름을 입력해주세요");
         }
 
-        if (isNotValidMinOrderPrice(requestDto.getMinOrderPrice())) {
+        if (isNotValidMinOrderPrice(receivedRestaurant.getMinOrderPrice())) {
             throw new IllegalReceiveException("최소주문 가격 에러");
         }
 
-        if (isNotValidDeliveryFee(requestDto.getDeliveryFee())) {
+        if (isNotValidDeliveryFee(receivedRestaurant.getDeliveryFee())) {
             throw new IllegalReceiveException("기본 배달비 에러");
         }
     }
