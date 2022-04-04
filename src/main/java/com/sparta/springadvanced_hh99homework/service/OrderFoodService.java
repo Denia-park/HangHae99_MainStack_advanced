@@ -33,13 +33,33 @@ public class OrderFoodService {
 
         List<EachOrderSpecFoodDetail> savedFoods = saveOrderedFoodDetailList(savedEachOrderSpec,foods);
 
-//        eachOrder.setOrderRequestTotalPrice(calculateOrderRequestTotalPrice(eachOrder));
-//
-//        eachOrder.setDeliveryFee(calculateDeliveryFee(eachOrder));
-//
-//        eachOrder.setOrderRequestId(OrderRequestIdCounter);
+        Long totalFoodPrice = getTotalFoodPrice(savedFoods);
 
-        return null;
+        if(totalFoodPrice < eachOrderSpec.getRestaurant().getMinOrderPrice())
+            throw new IllegalArgumentException("음식점의 최소 주문 가격을 넘겨야합니다.");
+
+        Integer eachOrderDeliveryFee = getEachOrderDeliveryFee(eachOrderSpec,totalFoodPrice);
+        eachOrderSpec.setDeliveryFee(eachOrderDeliveryFee);
+
+        eachOrderSpec.setEachOrderTotalPrice( (long) totalFoodPrice + eachOrderDeliveryFee);
+
+        return eachOrderSpec;
+    }
+
+    private Integer getEachOrderDeliveryFee(EachOrderSpec eachOrderSpec, Long totalFoodPrice) {
+        //주문한 음식 가격에 따라 배달비가 달라짐.
+        //여기서는 따로 조건이 없으므로 생략
+        return eachOrderSpec.getRestaurant().getDeliveryFee();
+    }
+
+    private Long getTotalFoodPrice(List<EachOrderSpecFoodDetail> savedFoods) {
+        Long totalFoodPrice = 0L;
+
+        for (EachOrderSpecFoodDetail savedfFood : savedFoods) {
+            totalFoodPrice += savedfFood.getOrderedEachFoodTotalPrice();
+        }
+
+        return totalFoodPrice;
     }
 
     private EachOrderSpec saveEachOrder(EachOrderSpec eachOrderSpec) {

@@ -2,6 +2,7 @@ package com.sparta.springadvanced_hh99homework.controller;
 
 import com.sparta.springadvanced_hh99homework.dto.FoodRequestDto;
 import com.sparta.springadvanced_hh99homework.dto.OrderRequestDto;
+import com.sparta.springadvanced_hh99homework.dto.OrderResponseDto;
 import com.sparta.springadvanced_hh99homework.model.Food;
 import com.sparta.springadvanced_hh99homework.model.EachOrderSpec;
 import com.sparta.springadvanced_hh99homework.model.EachOrderSpecFoodDetail;
@@ -36,13 +37,20 @@ public class OrderController {
     }
 
     @PostMapping("/order/request")
-    public void orderRequest(@RequestBody OrderRequestDto orderRequestDto){
+    public OrderResponseDto orderRequest(@RequestBody OrderRequestDto orderRequestDto){
         Restaurant findRestaurant = findRestaurant(orderRequestDto);
         EachOrderSpec eachOrderSpec = new EachOrderSpec(findRestaurant);
 
         List<EachOrderSpecFoodDetail> eachOrderSpecFoodDetailList = convertDtoToModel(findRestaurant,orderRequestDto.getFoods());
-        EachOrderSpec a = orderFoodService.orderRequest(eachOrderSpec, eachOrderSpecFoodDetailList);
-        System.out.println("a");
+        EachOrderSpec savedEachOrderSpec = orderFoodService.orderRequest(eachOrderSpec, eachOrderSpecFoodDetailList);
+
+        return convertModelsToDto(savedEachOrderSpec);
+    }
+
+    private OrderResponseDto convertModelsToDto(EachOrderSpec savedEachOrderSpec) {
+        List<EachOrderSpecFoodDetail> savedEachOrderSpecFoodDetailList = orderedFoodDetailRepository.findAllByEachOrderSpec(savedEachOrderSpec);
+
+        return new OrderResponseDto(savedEachOrderSpec,savedEachOrderSpecFoodDetailList);
     }
 
     private Restaurant findRestaurant(OrderRequestDto orderRequestDto) {
