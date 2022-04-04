@@ -7,11 +7,13 @@ import com.sparta.springadvanced_hh99homework.model.Food;
 import com.sparta.springadvanced_hh99homework.model.EachOrderSpec;
 import com.sparta.springadvanced_hh99homework.model.EachOrderSpecFoodDetail;
 import com.sparta.springadvanced_hh99homework.model.Restaurant;
+import com.sparta.springadvanced_hh99homework.repository.EachOrderRepository;
 import com.sparta.springadvanced_hh99homework.repository.FoodRepository;
 import com.sparta.springadvanced_hh99homework.repository.OrderedFoodDetailRepository;
 import com.sparta.springadvanced_hh99homework.repository.RestaurantRepository;
 import com.sparta.springadvanced_hh99homework.service.OrderFoodService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,15 +27,16 @@ public class OrderController {
     private RestaurantRepository restaurantRepository;
     private FoodRepository foodRepository;
     private OrderFoodService orderFoodService;
-
     private OrderedFoodDetailRepository orderedFoodDetailRepository;
+    private EachOrderRepository eachOrderRepository;
 
     @Autowired
-    public OrderController(RestaurantRepository restaurantRepository, FoodRepository foodRepository, OrderFoodService orderFoodService, OrderedFoodDetailRepository orderedFoodDetailRepository) {
+    public OrderController(RestaurantRepository restaurantRepository, FoodRepository foodRepository, OrderFoodService orderFoodService, OrderedFoodDetailRepository orderedFoodDetailRepository, EachOrderRepository eachOrderRepository) {
         this.restaurantRepository = restaurantRepository;
         this.foodRepository = foodRepository;
         this.orderFoodService = orderFoodService;
         this.orderedFoodDetailRepository = orderedFoodDetailRepository;
+        this.eachOrderRepository = eachOrderRepository;
     }
 
     @PostMapping("/order/request")
@@ -53,6 +56,16 @@ public class OrderController {
         return new OrderResponseDto(savedEachOrderSpec,savedEachOrderSpecFoodDetailList);
     }
 
+    private List<OrderResponseDto> convertModelsToDto(List<EachOrderSpec> savedEachOrderSpeces) {
+        List<OrderResponseDto> orderResponseDtoList = new ArrayList<>();
+        for (EachOrderSpec savedEachOrderSpec : savedEachOrderSpeces) {
+            List<EachOrderSpecFoodDetail> savedEachOrderSpecFoodDetailList = orderedFoodDetailRepository.findAllByEachOrderSpec(savedEachOrderSpec);
+            orderResponseDtoList.add(new OrderResponseDto(savedEachOrderSpec, savedEachOrderSpecFoodDetailList));
+        }
+
+        return orderResponseDtoList;
+    }
+
     private Restaurant findRestaurant(OrderRequestDto orderRequestDto) {
         return restaurantRepository.findById(orderRequestDto.getRestaurantId())
                 .orElseThrow(()-> new IllegalArgumentException("해당 음식점 ID는 존재하지 않습니다."));
@@ -70,11 +83,10 @@ public class OrderController {
         return eachOrderSpecFoodDetailList;
     }
 
-//    @GetMapping("/orders")
-//    public List<OrderResponseDto> getOrders(){
-//        return convertModelsToDtos(orderFoodService.getOrders());
-//    }
+    @GetMapping("/orders")
+    public List<OrderResponseDto> getOrders(){
+        List<EachOrderSpec> savedEachOrderSpec = eachOrderRepository.findAll();
 
-//    private List<OrderResponseDto> convertModelsToDtos(List<OrderRequest> orderRequestList) {
-//    }
+        return convertModelsToDto(savedEachOrderSpec);
+    }
 }

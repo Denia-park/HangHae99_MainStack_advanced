@@ -36,7 +36,7 @@ public class OrderResponseDto {
         for (EachOrderSpecFoodDetail each : eachOrderSpecFoodDetailList) {
             String foodName= each.getFood().getName();
             Integer foodQuantity= each.getQuantity();
-            Integer foodPrice= each.getFood().getPrice();
+            Integer foodPrice= each.getFood().getPrice() * foodQuantity;
             orderResponseFoods.add(new OrderResponseFood(foodName, foodQuantity, foodPrice));
         }
         this.foods = orderResponseFoods;
