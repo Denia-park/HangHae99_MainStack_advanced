@@ -19,7 +19,7 @@ public class Restaurant {
     @Column(nullable = false, unique = true)
     private Long restaurantId;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String name;
 
     @Column(nullable = false)

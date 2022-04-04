@@ -22,10 +22,7 @@ public class RestaurantService {
 
     public Restaurant registerRestaurant(Restaurant receivedRestaurant) {
         validator.validateInput(receivedRestaurant);
-
-        if(restaurantRepository.existsByName(receivedRestaurant.getName()))
-            throw new IllegalStateException("해당 음식점의 이름이 이미 존재합니다.");
-
+        
         long restaurantIdCounter = restaurantRepository.findAll().size() + 1;
         receivedRestaurant.setRestaurantId(restaurantIdCounter);
 
