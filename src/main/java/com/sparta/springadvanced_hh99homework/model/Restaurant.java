@@ -3,16 +3,21 @@ package com.sparta.springadvanced_hh99homework.model;
 import com.sparta.springadvanced_hh99homework.dto.RestaurantRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @Entity
 public class Restaurant {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
-    private Long id;
+    private Long dbId;
+
+    @Column(nullable = false, unique = true)
+    private Long restaurantId;
 
     @Column(nullable = false, unique = true)
     private String name;

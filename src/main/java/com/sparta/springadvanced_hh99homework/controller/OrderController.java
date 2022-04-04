@@ -39,7 +39,7 @@ public class OrderController {
 
         Map<Food,Integer> foodMap = new HashMap<Food,Integer>();
         for (FoodRequestDto food : orderRequestDto.getFoods()) {
-            Food findedFood = foodRepository.findByRestaurantAndId(restaurant, food.getId())
+            Food findedFood = foodRepository.findByRestaurantAndFoodId(restaurant, food.getId())
                     .orElseThrow(()-> new IllegalArgumentException("해당 음식이 존재하지 않습니다."));
             foodMap.put(findedFood, food.getQuantity());
         }

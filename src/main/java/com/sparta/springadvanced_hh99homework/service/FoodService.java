@@ -34,12 +34,15 @@ public class FoodService {
             if(foodRepository.existsByRestaurantAndName(food.getRestaurant(), food.getName()))
                 throw new IllegalStateException("해당 음식점에 해당 음식 이름이 이미 존재합니다.");
 
+            long foodIdCounter = foodRepository.findAllByRestaurant(food.getRestaurant()).size() + 1;
+            food.setFoodId(foodIdCounter);
+
             foodRepository.save(food);
         }
     }
 
     public List<Food> getFoods(Long restaurantId) {
-        Restaurant findedRestaurant = restaurantRepository.findById(restaurantId)
+        Restaurant findedRestaurant = restaurantRepository.findByRestaurantId(restaurantId)
                 .orElseThrow(()->new IllegalArgumentException("해당 하는 음식점 ID는 존재하지 않습니다."));
         return foodRepository.findAllByRestaurant(findedRestaurant);
     }

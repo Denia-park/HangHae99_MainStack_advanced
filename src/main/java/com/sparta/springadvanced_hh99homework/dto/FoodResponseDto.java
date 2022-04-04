@@ -12,7 +12,7 @@ public class FoodResponseDto {
     private Integer price;
 
     public FoodResponseDto(Food food) {
-        this.id = food.getId();
+        this.id = food.getFoodId();
         this.name = food.getName();
         this.price = food.getPrice();
     }

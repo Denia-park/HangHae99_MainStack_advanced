@@ -46,7 +46,7 @@ public class FoodController {
 
     public List<Food> convertDtoToModel(Long restaurantId, List<FoodRequestDto> requestDtos) {
         ArrayList<Food> foodResponseDtoList = new ArrayList<>();
-        Restaurant restaurant = restaurantRepository.findById(restaurantId)
+        Restaurant restaurant = restaurantRepository.findByRestaurantId(restaurantId)
                 .orElseThrow(()->new IllegalArgumentException("해당 음식점 ID는 존재하지 않습니다."));
 
         for (FoodRequestDto food : requestDtos) {

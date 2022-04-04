@@ -19,7 +19,7 @@ public class RestaurantResponseDto {
     private Integer deliveryFee;
 
     public RestaurantResponseDto(Restaurant restaurant) {
-        this.id = restaurant.getId();
+        this.id = restaurant.getRestaurantId();
         this.name = restaurant.getName();
         this.minOrderPrice = restaurant.getMinOrderPrice();
         this.deliveryFee = restaurant.getDeliveryFee();

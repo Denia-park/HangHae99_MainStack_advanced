@@ -18,7 +18,10 @@ public class OrderFood {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
-    private Long id;
+    private Long dbId;
+
+    @Column(nullable = false, unique = true)
+    private Long orderFoodId;
 
     @ManyToOne
     @JoinColumn(name = "RESTAURANT_ID", nullable = false)
