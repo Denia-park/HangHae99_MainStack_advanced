@@ -24,7 +24,7 @@ public class EachOrderSpecFoodDetail {
     private Integer quantity;
 
     @Column(nullable = false)
-    private Long orderedFoodTotalPrice;
+    private Long orderedEachFoodTotalPrice;
 
     @ManyToOne
     @JoinColumn(nullable = false)
@@ -33,7 +33,7 @@ public class EachOrderSpecFoodDetail {
     public EachOrderSpecFoodDetail(Food food, FoodRequestDto foodRequestDto) {
         this.food = food;
         this.quantity = foodRequestDto.getQuantity();
-        this.orderedFoodTotalPrice = 0L;
+        this.orderedEachFoodTotalPrice = 0L;
         this.eachOrderSpec = null;
     }
 }

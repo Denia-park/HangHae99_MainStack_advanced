@@ -17,7 +17,7 @@ public class EachOrderSpec {
     private Long dbId;
 
     @Column(nullable = false, unique = true)
-    private Long orderRequestId;
+    private Long eachOrderId;
 
     @ManyToOne
     @JoinColumn(name = "RESTAURANT_ID", nullable = false)
@@ -27,11 +27,11 @@ public class EachOrderSpec {
     Integer deliveryFee;
 
     @Column(nullable = false)
-    Long OrderRequestTotalPrice;
+    Long eachOrderTotalPrice;
 
     public EachOrderSpec(Restaurant restaurant) {
         this.restaurant = restaurant;
         this.deliveryFee = 0;
-        this.OrderRequestTotalPrice = 0L;
+        this.eachOrderTotalPrice = 0L;
     }
 }

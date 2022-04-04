@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,7 +31,7 @@ public class OrderFoodService {
 
         EachOrderSpec savedEachOrderSpec = saveEachOrder(eachOrderSpec);
 
-        saveOrderedFoodDetailList(savedEachOrderSpec,foods);
+        List<EachOrderSpecFoodDetail> savedFoods = saveOrderedFoodDetailList(savedEachOrderSpec,foods);
 
 //        eachOrder.setOrderRequestTotalPrice(calculateOrderRequestTotalPrice(eachOrder));
 //
@@ -43,16 +44,19 @@ public class OrderFoodService {
 
     private EachOrderSpec saveEachOrder(EachOrderSpec eachOrderSpec) {
         long OrderRequestIdCounter = eachOrderRepository.findAll().size() + 1;
-        eachOrderSpec.setOrderRequestId(OrderRequestIdCounter);
+        eachOrderSpec.setEachOrderId(OrderRequestIdCounter);
         return eachOrderRepository.save(eachOrderSpec);
     }
 
-    private void saveOrderedFoodDetailList(EachOrderSpec savedEachOrderSpec, List<EachOrderSpecFoodDetail> foods) {
+    private List<EachOrderSpecFoodDetail> saveOrderedFoodDetailList(EachOrderSpec savedEachOrderSpec, List<EachOrderSpecFoodDetail> foods) {
+        List<EachOrderSpecFoodDetail> savedEachOrderSpecFoodDetailList = new ArrayList<EachOrderSpecFoodDetail>();
         for (EachOrderSpecFoodDetail food : foods) {
             food.setEachOrderSpec(savedEachOrderSpec);
+            food.setOrderedEachFoodTotalPrice( (long) food.getQuantity() * food.getFood().getPrice());
 
-            orderedFoodDetailRepository.save(food);
+            savedEachOrderSpecFoodDetailList.add(orderedFoodDetailRepository.save(food));
         }
+        return savedEachOrderSpecFoodDetailList;
     }
 
     private Long calculateOrderRequestTotalPrice(EachOrderSpec eachOrderSpec) {
