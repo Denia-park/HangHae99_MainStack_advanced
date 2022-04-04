@@ -16,16 +16,13 @@ public class OrderedFoodDetail {
     private Long dbId;
 
     @OneToOne
-//    @JoinColumn(nullable = false)
-    @JoinColumn(nullable = true)
+    @JoinColumn(nullable = false)
     private Food food;
 
-//    @Column(nullable = false)
-    @Column(nullable = true)
+    @Column(nullable = false)
     private Integer quantity;
 
-//    @Column(nullable = false)
-    @Column(nullable = true)
+    @Column(nullable = false)
     private Long orderedFoodTotalPrice;
 
     public OrderedFoodDetail(Food findedFood, Integer quantity) {
