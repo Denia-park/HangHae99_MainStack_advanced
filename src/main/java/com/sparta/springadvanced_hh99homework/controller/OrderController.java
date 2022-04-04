@@ -67,7 +67,7 @@ public class OrderController {
     }
 
     private Restaurant findRestaurant(OrderRequestDto orderRequestDto) {
-        return restaurantRepository.findById(orderRequestDto.getRestaurantId())
+        return restaurantRepository.findByRestaurantId(orderRequestDto.getRestaurantId())
                 .orElseThrow(()-> new IllegalArgumentException("해당 음식점 ID는 존재하지 않습니다."));
     }
 
