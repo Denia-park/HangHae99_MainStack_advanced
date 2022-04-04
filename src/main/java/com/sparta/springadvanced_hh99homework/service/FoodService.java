@@ -39,10 +39,8 @@ public class FoodService {
     }
 
     public List<Food> getFoods(Long restaurantId) {
-        Restaurant findedRestaurant = restaurantRepository.findById(restaurantId).orElse(null);
-        if (findedRestaurant == null) {
-            throw new IllegalArgumentException("해당 하는 음식점 ID는 존재하지 않습니다.");
-        }
+        Restaurant findedRestaurant = restaurantRepository.findById(restaurantId)
+                .orElseThrow(()->new IllegalArgumentException("해당 하는 음식점 ID는 존재하지 않습니다."));
         return foodRepository.findAllByRestaurant(findedRestaurant);
     }
 }
