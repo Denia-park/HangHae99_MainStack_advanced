@@ -3,7 +3,7 @@ package com.sparta.springadvanced_hh99homework.controller;
 import com.sparta.springadvanced_hh99homework.dto.FoodRequestDto;
 import com.sparta.springadvanced_hh99homework.dto.OrderRequestDto;
 import com.sparta.springadvanced_hh99homework.model.Food;
-import com.sparta.springadvanced_hh99homework.model.OrderRequest;
+import com.sparta.springadvanced_hh99homework.model.EachOrder;
 import com.sparta.springadvanced_hh99homework.model.OrderedFoodDetail;
 import com.sparta.springadvanced_hh99homework.model.Restaurant;
 import com.sparta.springadvanced_hh99homework.repository.FoodRepository;
@@ -37,8 +37,29 @@ public class OrderController {
 
     @PostMapping("/order/request")
     public void orderRequest(@RequestBody OrderRequestDto orderRequestDto){
-        OrderRequest a = orderFoodService.orderRequest(convertDtoToModel(orderRequestDto));
+        Restaurant findRestaurant = findRestaurant(orderRequestDto);
+        EachOrder eachOrder = new EachOrder(findRestaurant);
+
+        List<OrderedFoodDetail> orderedFoodDetailList = convertDtoToModel(findRestaurant,orderRequestDto.getFoods());
+        EachOrder a = orderFoodService.orderRequest(eachOrder, orderedFoodDetailList);
         System.out.println("a");
+    }
+
+    private Restaurant findRestaurant(OrderRequestDto orderRequestDto) {
+        return restaurantRepository.findById(orderRequestDto.getRestaurantId())
+                .orElseThrow(()-> new IllegalArgumentException("해당 음식점 ID는 존재하지 않습니다."));
+    }
+
+    private List<OrderedFoodDetail> convertDtoToModel(Restaurant findRestaurant, List<FoodRequestDto> foods) {
+        List<OrderedFoodDetail> orderedFoodDetailList = new ArrayList<OrderedFoodDetail>();
+
+        for (FoodRequestDto foodRequestDto : foods) {
+            Food findedFood = foodRepository.findByRestaurantAndFoodId(findRestaurant, foodRequestDto.getId())
+                    .orElseThrow(()-> new IllegalArgumentException("해당 하는 음식은 존재하지 않습니다."));
+            orderedFoodDetailList.add(new OrderedFoodDetail(findedFood, foodRequestDto));
+        }
+
+        return orderedFoodDetailList;
     }
 
 //    @GetMapping("/orders")
@@ -48,23 +69,4 @@ public class OrderController {
 
 //    private List<OrderResponseDto> convertModelsToDtos(List<OrderRequest> orderRequestList) {
 //    }
-
-    public OrderRequest convertDtoToModel(OrderRequestDto orderRequestDto) {
-        Restaurant restaurant = restaurantRepository.findById(orderRequestDto.getRestaurantId())
-                .orElseThrow(()-> new IllegalArgumentException("해당 음식점 ID는 존재하지 않습니다."));
-
-        List<OrderedFoodDetail> orderedFoodDetailList = new ArrayList<OrderedFoodDetail>();
-        for (FoodRequestDto foodRequestDto : orderRequestDto.getFoods()) {
-            Food findedFood = foodRepository.findByRestaurantAndFoodId(restaurant, foodRequestDto.getId())
-                    .orElseThrow(()-> new IllegalArgumentException("해당 음식이 존재하지 않습니다."));
-
-            OrderedFoodDetail orderedFoodDetail = new OrderedFoodDetail(findedFood, foodRequestDto.getQuantity());
-
-            OrderedFoodDetail savedOrderedFoodDetail = orderedFoodDetailRepository.save(orderedFoodDetail);
-
-            orderedFoodDetailList.add(savedOrderedFoodDetail);
-        }
-
-        return new OrderRequest(restaurant , orderedFoodDetailList);
-    }
 }

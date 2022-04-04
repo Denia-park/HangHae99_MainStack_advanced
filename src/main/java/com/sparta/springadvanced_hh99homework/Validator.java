@@ -1,11 +1,13 @@
 package com.sparta.springadvanced_hh99homework;
 
+import com.sparta.springadvanced_hh99homework.dto.FoodRequestDto;
 import com.sparta.springadvanced_hh99homework.model.Food;
-import com.sparta.springadvanced_hh99homework.model.OrderRequest;
 import com.sparta.springadvanced_hh99homework.model.OrderedFoodDetail;
 import com.sparta.springadvanced_hh99homework.model.Restaurant;
 import com.sun.nio.sctp.IllegalReceiveException;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class Validator {
@@ -58,9 +60,9 @@ public class Validator {
         }
     }
 
-    public void validateInput(OrderRequest orderRequest) {
-        for (OrderedFoodDetail orderedFoodDetail : orderRequest.getOrderedFoodDetailList()) {
-            if(!isValidQuantity(orderedFoodDetail.getQuantity()))
+    public void validateInput(List<OrderedFoodDetail> orderRequest) {
+        for (OrderedFoodDetail foodRequestDto : orderRequest) {
+            if(!isValidQuantity(foodRequestDto.getQuantity()))
                 throw new IllegalReceiveException(FOOD_HANGUL + "최소 주문 수량을 맞춰주세요.");
         }
     }
