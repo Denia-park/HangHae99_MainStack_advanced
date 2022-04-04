@@ -1,12 +1,10 @@
 package com.sparta.springadvanced_hh99homework.model;
 
-import com.sparta.springadvanced_hh99homework.dto.FoodRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,36 +12,33 @@ import java.util.Map;
 @Setter
 @NoArgsConstructor
 @Entity
-public class OrderFood {
+public class OrderRequest {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private Long dbId;
 
     @Column(nullable = false, unique = true)
-    private Long orderFoodId;
+    private Long orderRequestId;
 
     @ManyToOne
     @JoinColumn(name = "RESTAURANT_ID", nullable = false)
     private Restaurant restaurant;
 
-    @ElementCollection //  Map 의 Value가 non-entities
-    @CollectionTable(name="FoodAndQuantity")
-    @MapKeyJoinColumn(name="FOOD_ID")
-    @Column(name="QUANTITY")
-//    HashMap<Food, Long> foodAndQuantity;
-    Map<Food, Integer> foodAndQuantity;
+    @OneToMany
+    @JoinColumn(name = "ORDERED_FOOD_DETAIL_ID", nullable = false)
+    private List<OrderedFoodDetail> orderedFoodDetailList;
 
     @Column(nullable = false)
     Integer deliveryFee;
 
     @Column(nullable = false)
-    Integer totalPrice;
+    Long OrderRequestTotalPrice;
 
-    public OrderFood(Restaurant restaurant, Map<Food, Integer> foodAndQuantity) {
+    public OrderRequest(Restaurant restaurant, List<OrderedFoodDetail> orderedFoodDetailList) {
         this.restaurant = restaurant;
-        this.foodAndQuantity = foodAndQuantity;
-        this.deliveryFee = null;
-        this.totalPrice = null;
+        this.orderedFoodDetailList = orderedFoodDetailList;
+        this.deliveryFee = 0;
+        this.OrderRequestTotalPrice = 0L;
     }
 }

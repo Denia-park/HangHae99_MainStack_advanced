@@ -1,6 +1,8 @@
 package com.sparta.springadvanced_hh99homework;
 
 import com.sparta.springadvanced_hh99homework.model.Food;
+import com.sparta.springadvanced_hh99homework.model.OrderRequest;
+import com.sparta.springadvanced_hh99homework.model.OrderedFoodDetail;
 import com.sparta.springadvanced_hh99homework.model.Restaurant;
 import com.sun.nio.sctp.IllegalReceiveException;
 import org.springframework.stereotype.Component;
@@ -54,5 +56,17 @@ public class Validator {
         if (!isValidPrice(receivedFood.getPrice())) {
             throw new IllegalReceiveException(FOOD_HANGUL + "가격 에러");
         }
+    }
+
+    public void validateInput(OrderRequest orderRequest) {
+        for (OrderedFoodDetail orderedFoodDetail : orderRequest.getOrderedFoodDetailList()) {
+            if(!isValidQuantity(orderedFoodDetail.getQuantity()))
+                throw new IllegalReceiveException(FOOD_HANGUL + "최소 주문 수량을 맞춰주세요.");
+        }
+    }
+
+    private boolean isValidQuantity(Integer quantity) {
+        // 1. 허용값: 1 ~ 100
+        return 1 <= quantity && quantity <= 100;
     }
 }
