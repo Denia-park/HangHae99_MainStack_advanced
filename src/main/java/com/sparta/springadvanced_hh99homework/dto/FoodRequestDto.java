@@ -5,6 +5,10 @@ import lombok.Getter;
 
 @Getter
 public class FoodRequestDto {
+    private Long id;
+
+    private Integer quantity;
+
     private String name;
 
     private Integer price;
