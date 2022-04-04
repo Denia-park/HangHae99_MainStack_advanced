@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @Entity
-public class EachOrder {
+public class EachOrderSpec {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
@@ -29,7 +29,7 @@ public class EachOrder {
     @Column(nullable = false)
     Long OrderRequestTotalPrice;
 
-    public EachOrder(Restaurant restaurant) {
+    public EachOrderSpec(Restaurant restaurant) {
         this.restaurant = restaurant;
         this.deliveryFee = 0;
         this.OrderRequestTotalPrice = 0L;

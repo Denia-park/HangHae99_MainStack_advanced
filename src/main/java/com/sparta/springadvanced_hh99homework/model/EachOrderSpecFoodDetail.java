@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @Entity
-public class OrderedFoodDetail {
+public class EachOrderSpecFoodDetail {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private Long dbId;
@@ -28,12 +28,12 @@ public class OrderedFoodDetail {
 
     @ManyToOne
     @JoinColumn(nullable = false)
-    private EachOrder eachOrder;
+    private EachOrderSpec eachOrderSpec;
 
-    public OrderedFoodDetail(Food food, FoodRequestDto foodRequestDto) {
+    public EachOrderSpecFoodDetail(Food food, FoodRequestDto foodRequestDto) {
         this.food = food;
         this.quantity = foodRequestDto.getQuantity();
         this.orderedFoodTotalPrice = 0L;
-        this.eachOrder = null;
+        this.eachOrderSpec = null;
     }
 }

@@ -1,8 +1,8 @@
 package com.sparta.springadvanced_hh99homework.service;
 
 import com.sparta.springadvanced_hh99homework.Validator;
-import com.sparta.springadvanced_hh99homework.model.EachOrder;
-import com.sparta.springadvanced_hh99homework.model.OrderedFoodDetail;
+import com.sparta.springadvanced_hh99homework.model.EachOrderSpec;
+import com.sparta.springadvanced_hh99homework.model.EachOrderSpecFoodDetail;
 import com.sparta.springadvanced_hh99homework.repository.EachOrderRepository;
 import com.sparta.springadvanced_hh99homework.repository.OrderedFoodDetailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +25,12 @@ public class OrderFoodService {
     }
 
     @Transactional
-    public EachOrder orderRequest(EachOrder eachOrder, List<OrderedFoodDetail> foods) {
+    public EachOrderSpec orderRequest(EachOrderSpec eachOrderSpec, List<EachOrderSpecFoodDetail> foods) {
         validator.validateInput(foods);
 
-        EachOrder savedEachOrder = saveEachOrder(eachOrder);
-        
-        saveOrderedFoodDetailList(savedEachOrder,foods);
+        EachOrderSpec savedEachOrderSpec = saveEachOrder(eachOrderSpec);
+
+        saveOrderedFoodDetailList(savedEachOrderSpec,foods);
 
 //        eachOrder.setOrderRequestTotalPrice(calculateOrderRequestTotalPrice(eachOrder));
 //
@@ -41,21 +41,21 @@ public class OrderFoodService {
         return null;
     }
 
-    private EachOrder saveEachOrder(EachOrder eachOrder) {
+    private EachOrderSpec saveEachOrder(EachOrderSpec eachOrderSpec) {
         long OrderRequestIdCounter = eachOrderRepository.findAll().size() + 1;
-        eachOrder.setOrderRequestId(OrderRequestIdCounter);
-        return eachOrderRepository.save(eachOrder);
+        eachOrderSpec.setOrderRequestId(OrderRequestIdCounter);
+        return eachOrderRepository.save(eachOrderSpec);
     }
 
-    private void saveOrderedFoodDetailList(EachOrder savedEachOrder,List<OrderedFoodDetail> foods) {
-        for (OrderedFoodDetail food : foods) {
-            food.setEachOrder(savedEachOrder);
+    private void saveOrderedFoodDetailList(EachOrderSpec savedEachOrderSpec, List<EachOrderSpecFoodDetail> foods) {
+        for (EachOrderSpecFoodDetail food : foods) {
+            food.setEachOrderSpec(savedEachOrderSpec);
 
             orderedFoodDetailRepository.save(food);
         }
     }
 
-    private Long calculateOrderRequestTotalPrice(EachOrder eachOrder) {
+    private Long calculateOrderRequestTotalPrice(EachOrderSpec eachOrderSpec) {
 //        Long orderRequestTotalPrice = 0L;
 //
 //        for (OrderedFoodDetail orderedFoodDetail : eachOrder.getOrderedFoodDetailList()) {
@@ -70,12 +70,12 @@ public class OrderFoodService {
         return null;
     }
 
-    private Long calculateOrderFoodTotalPrice(OrderedFoodDetail orderedFoodDetail) {
-        return (long) orderedFoodDetail.getQuantity() * orderedFoodDetail.getFood().getPrice();
+    private Long calculateOrderFoodTotalPrice(EachOrderSpecFoodDetail eachOrderSpecFoodDetail) {
+        return (long) eachOrderSpecFoodDetail.getQuantity() * eachOrderSpecFoodDetail.getFood().getPrice();
     }
 
-    private Integer calculateDeliveryFee(EachOrder eachOrder) {
-        return eachOrder.getRestaurant().getDeliveryFee();
+    private Integer calculateDeliveryFee(EachOrderSpec eachOrderSpec) {
+        return eachOrderSpec.getRestaurant().getDeliveryFee();
     }
 
 //    public Object getOrders() {

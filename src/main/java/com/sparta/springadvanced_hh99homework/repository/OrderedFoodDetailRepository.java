@@ -1,7 +1,7 @@
 package com.sparta.springadvanced_hh99homework.repository;
 
-import com.sparta.springadvanced_hh99homework.model.OrderedFoodDetail;
+import com.sparta.springadvanced_hh99homework.model.EachOrderSpecFoodDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface OrderedFoodDetailRepository extends JpaRepository<OrderedFoodDetail,Long> {
+public interface OrderedFoodDetailRepository extends JpaRepository<EachOrderSpecFoodDetail,Long> {
 }

@@ -3,8 +3,8 @@ package com.sparta.springadvanced_hh99homework.controller;
 import com.sparta.springadvanced_hh99homework.dto.FoodRequestDto;
 import com.sparta.springadvanced_hh99homework.dto.OrderRequestDto;
 import com.sparta.springadvanced_hh99homework.model.Food;
-import com.sparta.springadvanced_hh99homework.model.EachOrder;
-import com.sparta.springadvanced_hh99homework.model.OrderedFoodDetail;
+import com.sparta.springadvanced_hh99homework.model.EachOrderSpec;
+import com.sparta.springadvanced_hh99homework.model.EachOrderSpecFoodDetail;
 import com.sparta.springadvanced_hh99homework.model.Restaurant;
 import com.sparta.springadvanced_hh99homework.repository.FoodRepository;
 import com.sparta.springadvanced_hh99homework.repository.OrderedFoodDetailRepository;
@@ -38,10 +38,10 @@ public class OrderController {
     @PostMapping("/order/request")
     public void orderRequest(@RequestBody OrderRequestDto orderRequestDto){
         Restaurant findRestaurant = findRestaurant(orderRequestDto);
-        EachOrder eachOrder = new EachOrder(findRestaurant);
+        EachOrderSpec eachOrderSpec = new EachOrderSpec(findRestaurant);
 
-        List<OrderedFoodDetail> orderedFoodDetailList = convertDtoToModel(findRestaurant,orderRequestDto.getFoods());
-        EachOrder a = orderFoodService.orderRequest(eachOrder, orderedFoodDetailList);
+        List<EachOrderSpecFoodDetail> eachOrderSpecFoodDetailList = convertDtoToModel(findRestaurant,orderRequestDto.getFoods());
+        EachOrderSpec a = orderFoodService.orderRequest(eachOrderSpec, eachOrderSpecFoodDetailList);
         System.out.println("a");
     }
 
@@ -50,16 +50,16 @@ public class OrderController {
                 .orElseThrow(()-> new IllegalArgumentException("해당 음식점 ID는 존재하지 않습니다."));
     }
 
-    private List<OrderedFoodDetail> convertDtoToModel(Restaurant findRestaurant, List<FoodRequestDto> foods) {
-        List<OrderedFoodDetail> orderedFoodDetailList = new ArrayList<OrderedFoodDetail>();
+    private List<EachOrderSpecFoodDetail> convertDtoToModel(Restaurant findRestaurant, List<FoodRequestDto> foods) {
+        List<EachOrderSpecFoodDetail> eachOrderSpecFoodDetailList = new ArrayList<EachOrderSpecFoodDetail>();
 
         for (FoodRequestDto foodRequestDto : foods) {
             Food findedFood = foodRepository.findByRestaurantAndFoodId(findRestaurant, foodRequestDto.getId())
                     .orElseThrow(()-> new IllegalArgumentException("해당 하는 음식은 존재하지 않습니다."));
-            orderedFoodDetailList.add(new OrderedFoodDetail(findedFood, foodRequestDto));
+            eachOrderSpecFoodDetailList.add(new EachOrderSpecFoodDetail(findedFood, foodRequestDto));
         }
 
-        return orderedFoodDetailList;
+        return eachOrderSpecFoodDetailList;
     }
 
 //    @GetMapping("/orders")
