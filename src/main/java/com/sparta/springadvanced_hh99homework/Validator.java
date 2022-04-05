@@ -25,6 +25,16 @@ public class Validator {
         if (!isValidDeliveryFee(receivedRestaurant.getDeliveryFee())) {
             throw new IllegalReceiveException(RESTAURANT_HANGUL + "기본 배달비 에러");
         }
+        if (!isValidCordinate(receivedRestaurant.getX(), receivedRestaurant.getY())) {
+            throw new IllegalReceiveException(RESTAURANT_HANGUL + "좌표 에러");
+        }
+    }
+
+    private boolean isValidCordinate(Integer x, Integer y) {
+        // X : 0~99 , Y : 0~99 허용
+        boolean validX = (0 <= x && x <= 99);
+        boolean validY = (0 <= y && y <= 99);
+        return validX && validY;
     }
 
     private boolean isValidName(String name) {

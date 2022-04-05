@@ -18,10 +18,16 @@ public class RestaurantResponseDto {
 
     private Integer deliveryFee;
 
+    private Integer x;
+
+    private Integer y;
+
     public RestaurantResponseDto(Restaurant restaurant) {
         this.id = restaurant.getRestaurantId();
         this.name = restaurant.getName();
         this.minOrderPrice = restaurant.getMinOrderPrice();
         this.deliveryFee = restaurant.getDeliveryFee();
+        this.x = restaurant.getX();
+        this.y = restaurant.getY();
     }
 }

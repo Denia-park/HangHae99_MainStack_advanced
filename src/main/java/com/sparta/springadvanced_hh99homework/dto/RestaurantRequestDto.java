@@ -11,4 +11,8 @@ public class RestaurantRequestDto {
     private Integer minOrderPrice;
 
     private Integer deliveryFee;
+
+    private Integer x;
+
+    private Integer y;
 }

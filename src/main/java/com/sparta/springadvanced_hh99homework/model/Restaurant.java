@@ -28,9 +28,17 @@ public class Restaurant {
     @Column(nullable = false)
     private Integer deliveryFee;
 
+    @Column(nullable = false)
+    private Integer x;
+
+    @Column(nullable = false)
+    private Integer y;
+
     public Restaurant(RestaurantRequestDto requestDto) {
         this.name = requestDto.getName();
         this.minOrderPrice = requestDto.getMinOrderPrice();
         this.deliveryFee = requestDto.getDeliveryFee();
+        this.x = requestDto.getX();
+        this.y = requestDto.getY();
     }
 }
