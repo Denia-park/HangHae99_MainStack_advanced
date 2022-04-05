@@ -34,6 +34,15 @@ public class Restaurant {
     @Column(nullable = false)
     private Integer y;
 
+    public Restaurant(Long restaurantId, String name, Integer minOrderPrice, Integer deliveryFee, Integer x, Integer y) {
+        this.restaurantId = restaurantId;
+        this.name = name;
+        this.minOrderPrice = minOrderPrice;
+        this.deliveryFee = deliveryFee;
+        this.x = x;
+        this.y = y;
+    }
+
     public Restaurant(RestaurantRequestDto requestDto) {
         this.name = requestDto.getName();
         this.minOrderPrice = requestDto.getMinOrderPrice();
