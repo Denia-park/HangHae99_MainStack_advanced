@@ -31,7 +31,7 @@ public class RestaurantController {
     @GetMapping("/restaurants")
     public List<RestaurantResponseDto> getRestaurantsWithCordinates(@RequestParam Integer x , @RequestParam Integer y){
         System.out.println("좌표 :"+ x+","+y);
-        return convertModelsToDtos(restaurantService.getRestaurants());
+        return convertModelsToDtos(restaurantService.getRestaurantsWithCordinates(x,y));
     }
 
     public Restaurant convertDtoToModel(RestaurantRequestDto requestDto){

@@ -20,11 +20,12 @@ public class testDataRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         // 테스트 User 생성
-        Restaurant testRestaurant0 = new Restaurant(0L, "음식점0", 10000, 5000, 0, 0);
-        Restaurant testRestaurant1 = new Restaurant(1L, "음식점1", 10000, 5000, 1, 1);
-        Restaurant testRestaurant2 = new Restaurant(2L, "음식점2", 5000, 4500, 2, 2);
-        Restaurant testRestaurant3 = new Restaurant(3L, "음식점3", 5000, 4500, 3, 3);
-        Restaurant testRestaurant4 = new Restaurant(4L, "음식점4", 7000, 6000, 4, 4);
+        Restaurant testRestaurant0 = new Restaurant(0L, "음식점A", 10000, 5000, 2, 5);
+        Restaurant testRestaurant1 = new Restaurant(1L, "음식점B", 10000, 5000, 3, 4);
+        Restaurant testRestaurant2 = new Restaurant(2L, "음식점C", 5000, 4500, 5, 5);
+        Restaurant testRestaurant3 = new Restaurant(3L, "음식점D", 5000, 4500, 2, 0);
+        Restaurant testRestaurant4 = new Restaurant(4L, "음식점E", 7000, 6000, 4, 0);
+        testRestaurant0 = restaurantRepository.save(testRestaurant0);
         testRestaurant1 = restaurantRepository.save(testRestaurant1);
         testRestaurant2 = restaurantRepository.save(testRestaurant2);
         testRestaurant3 = restaurantRepository.save(testRestaurant3);
