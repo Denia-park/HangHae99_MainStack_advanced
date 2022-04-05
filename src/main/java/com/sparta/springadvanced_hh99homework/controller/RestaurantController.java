@@ -4,10 +4,7 @@ import com.sparta.springadvanced_hh99homework.dto.RestaurantRequestDto;
 import com.sparta.springadvanced_hh99homework.dto.RestaurantResponseDto;
 import com.sparta.springadvanced_hh99homework.model.Restaurant;
 import com.sparta.springadvanced_hh99homework.service.RestaurantService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +23,14 @@ public class RestaurantController {
         return new RestaurantResponseDto(savedRestaurant);
     }
 
+    @GetMapping("/restaurants/all")
+    public List<RestaurantResponseDto> getAllRestaurants(){
+        return convertModelsToDtos(restaurantService.getRestaurants());
+    }
+
     @GetMapping("/restaurants")
-    public List<RestaurantResponseDto> getRestaurants(){
+    public List<RestaurantResponseDto> getRestaurantsWithCordinates(@RequestParam Integer x , @RequestParam Integer y){
+        System.out.println("좌표 :"+ x+","+y);
         return convertModelsToDtos(restaurantService.getRestaurants());
     }
 
