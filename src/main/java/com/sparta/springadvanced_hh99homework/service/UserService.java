@@ -37,7 +37,7 @@ public class UserService {
         UserRoleEnum role = UserRoleEnum.USER;
         if (requestDto.isAdmin()) {
             if (!requestDto.getAdminToken().equals(ADMIN_TOKEN)) {
-                throw new IllegalArgumentException("관리자 암호가 틀려 등록이 불가능합니다.");
+                throw new IllegalArgumentException("사장님 코드가 틀려 등록이 불가능합니다.");
             }
             role = UserRoleEnum.STORE_OWNER;
         }

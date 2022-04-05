@@ -25,6 +25,12 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = true)
+    private String ownerName;
+
+    @Column(nullable = true)
+    private String userNick;
+
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
@@ -33,5 +39,16 @@ public class User {
         this.username = username;
         this.password = password;
         this.role = role;
+    }
+
+    public User(String username, String password, UserRoleEnum role , String userNickOrOwnerName) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        if(role == UserRoleEnum.USER){
+            userNick = userNickOrOwnerName;
+        }else {
+            ownerName = userNickOrOwnerName;
+        }
     }
 }
