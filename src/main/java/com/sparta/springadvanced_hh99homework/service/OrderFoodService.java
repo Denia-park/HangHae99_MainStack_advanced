@@ -78,32 +78,4 @@ public class OrderFoodService {
         }
         return savedEachOrderSpecFoodDetailList;
     }
-
-    private Long calculateOrderRequestTotalPrice(EachOrderSpec eachOrderSpec) {
-//        Long orderRequestTotalPrice = 0L;
-//
-//        for (OrderedFoodDetail orderedFoodDetail : eachOrder.getOrderedFoodDetailList()) {
-//            orderedFoodDetail.setOrderedFoodTotalPrice(calculateOrderFoodTotalPrice(orderedFoodDetail));
-//            orderRequestTotalPrice += orderedFoodDetail.getOrderedFoodTotalPrice();
-//        }
-//
-//        if(orderRequestTotalPrice + eachOrder.getDeliveryFee() < eachOrder.getRestaurant().getMinOrderPrice())
-//            throw new IllegalIdentifierException("최소 주문 가격을 넘지 못해서 주문이 불가합니다.");
-//
-//        return orderRequestTotalPrice + eachOrder.getDeliveryFee();
-        return null;
-    }
-
-    private Long calculateOrderFoodTotalPrice(EachOrderSpecFoodDetail eachOrderSpecFoodDetail) {
-        return (long) eachOrderSpecFoodDetail.getQuantity() * eachOrderSpecFoodDetail.getFood().getPrice();
-    }
-
-    private Integer calculateDeliveryFee(EachOrderSpec eachOrderSpec) {
-        return eachOrderSpec.getRestaurant().getDeliveryFee();
-    }
-
-//    public Object getOrders() {
-//
-//    }
-
 }
