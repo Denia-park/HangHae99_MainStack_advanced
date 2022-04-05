@@ -29,9 +29,16 @@ public class RestaurantController {
     }
 
     @GetMapping("/restaurants")
-    public List<RestaurantResponseDto> getRestaurantsWithCordinates(@RequestParam Integer x , @RequestParam Integer y){
-        System.out.println("좌표 :"+ x+","+y);
-        return convertModelsToDtos(restaurantService.getRestaurantsWithCordinates(x,y));
+    public List<RestaurantResponseDto> getRestaurantsWithCordinates(@RequestParam(name = "x",required = false) Integer requestX , @RequestParam(name = "y",required = false) Integer requestY){
+        if(requestX == null && requestY == null){
+            return getAllRestaurants();
+        }else if(requestX != null && requestY != null){
+            System.out.println("좌표 :"+ requestX+","+requestY);
+
+            return convertModelsToDtos(restaurantService.getRestaurantsWithCordinates(requestX,requestY));
+        }else {
+            throw new IllegalArgumentException("X,Y 모두 있어야 좌표를 구할수 있습니다.");
+        }
     }
 
     public Restaurant convertDtoToModel(RestaurantRequestDto requestDto){
