@@ -31,6 +31,9 @@ public class Validator {
     }
 
     private boolean isValidCordinate(Integer x, Integer y) {
+        if (x == null || y == null) {
+            throw new IllegalReceiveException(RESTAURANT_HANGUL + "좌표를 입력해주셔야 합니다.");
+        }
         // X : 0~99 , Y : 0~99 허용
         boolean validX = (0 <= x && x <= 99);
         boolean validY = (0 <= y && y <= 99);

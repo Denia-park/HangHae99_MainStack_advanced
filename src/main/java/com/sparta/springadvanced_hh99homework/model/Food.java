@@ -20,7 +20,7 @@ public class Food {
     private Long foodId;
 
     @ManyToOne
-    @JoinColumn(name = "RESTAURANT_ID", nullable = false)
+    @JoinColumn(name = "RESTAURANT_DB_ID", nullable = false)
     private Restaurant restaurant;
 
     @Column(nullable = false)
