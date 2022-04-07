@@ -2,6 +2,8 @@ package com.sparta.springadvanced_hh99homework.controller;
 
 import com.sparta.springadvanced_hh99homework.dto.FoodRequestDto;
 import com.sparta.springadvanced_hh99homework.dto.FoodResponseDto;
+import com.sparta.springadvanced_hh99homework.exception.ErrorCode;
+import com.sparta.springadvanced_hh99homework.exception.HGPrivateException;
 import com.sparta.springadvanced_hh99homework.model.Food;
 import com.sparta.springadvanced_hh99homework.model.Restaurant;
 import com.sparta.springadvanced_hh99homework.repository.RestaurantRepository;
@@ -46,7 +48,7 @@ public class FoodController {
 
     public List<Food> convertDtoToModel(Long restaurantId, List<FoodRequestDto> requestDtos) {
         Restaurant restaurant = restaurantRepository.findByRestaurantId(restaurantId)
-                .orElseThrow(()->new IllegalArgumentException("해당 음식점 ID는 존재하지 않습니다."));
+                .orElseThrow(()->new HGPrivateException(ErrorCode.NOT_FOUND_RESTAURANT_ID));
 
         ArrayList<Food> foodResponseDtoList = new ArrayList<>();
 

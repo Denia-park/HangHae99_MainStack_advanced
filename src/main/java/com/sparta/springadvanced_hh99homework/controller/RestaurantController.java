@@ -2,6 +2,8 @@ package com.sparta.springadvanced_hh99homework.controller;
 
 import com.sparta.springadvanced_hh99homework.dto.RestaurantRequestDto;
 import com.sparta.springadvanced_hh99homework.dto.RestaurantResponseDto;
+import com.sparta.springadvanced_hh99homework.exception.ErrorCode;
+import com.sparta.springadvanced_hh99homework.exception.HGPrivateException;
 import com.sparta.springadvanced_hh99homework.model.Restaurant;
 import com.sparta.springadvanced_hh99homework.service.RestaurantService;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +39,7 @@ public class RestaurantController {
 
             return convertModelsToDtos(restaurantService.getRestaurantsWithCordinates(requestX,requestY));
         }else {
-            throw new IllegalArgumentException("X,Y 모두 있어야 좌표를 구할수 있습니다.");
+            throw new HGPrivateException(ErrorCode.RECHECK_COORDINATE);
         }
     }
 

@@ -1,6 +1,8 @@
 package com.sparta.springadvanced_hh99homework.service;
 
 import com.sparta.springadvanced_hh99homework.Validator;
+import com.sparta.springadvanced_hh99homework.exception.ErrorCode;
+import com.sparta.springadvanced_hh99homework.exception.HGPrivateException;
 import com.sparta.springadvanced_hh99homework.model.Food;
 import com.sparta.springadvanced_hh99homework.model.Restaurant;
 import com.sparta.springadvanced_hh99homework.repository.FoodRepository;
@@ -32,7 +34,7 @@ public class FoodService {
             validator.validateInput(food);
 
             if(foodRepository.existsByRestaurantAndName(food.getRestaurant(), food.getName()))
-                throw new IllegalStateException("해당 음식점에 해당 음식 이름이 이미 존재합니다.");
+                throw new HGPrivateException(ErrorCode.RECHECK_REGISTER_USER_ID);
 
             long foodIdCounter = foodRepository.findAllByRestaurant(food.getRestaurant()).size() + 1;
             food.setFoodId(foodIdCounter);
@@ -43,7 +45,7 @@ public class FoodService {
 
     public List<Food> getFoods(Long restaurantId) {
         Restaurant findedRestaurant = restaurantRepository.findByRestaurantId(restaurantId)
-                .orElseThrow(()->new IllegalArgumentException("해당 하는 음식점 ID는 존재하지 않습니다."));
+                .orElseThrow(() -> new HGPrivateException(ErrorCode.NOT_FOUND_RESTAURANT_ID));
         return foodRepository.findAllByRestaurant(findedRestaurant);
     }
 }

@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class RestApiException {
+public class ExceptionResponseDto {
     private String errorMessage;
     private String errCode;
 }

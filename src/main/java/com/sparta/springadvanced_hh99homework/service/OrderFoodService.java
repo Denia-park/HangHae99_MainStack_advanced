@@ -1,6 +1,8 @@
 package com.sparta.springadvanced_hh99homework.service;
 
 import com.sparta.springadvanced_hh99homework.Validator;
+import com.sparta.springadvanced_hh99homework.exception.ErrorCode;
+import com.sparta.springadvanced_hh99homework.exception.HGPrivateException;
 import com.sparta.springadvanced_hh99homework.model.EachOrderSpec;
 import com.sparta.springadvanced_hh99homework.model.EachOrderSpecFoodDetail;
 import com.sparta.springadvanced_hh99homework.repository.EachOrderRepository;
@@ -36,8 +38,8 @@ public class OrderFoodService {
         Long totalFoodPrice = getTotalFoodPrice(savedFoods);
 
         if(totalFoodPrice < eachOrderSpec.getRestaurant().getMinOrderPrice())
-            throw new IllegalArgumentException("음식점의 최소 주문 가격을 넘겨야합니다.");
-
+            throw new HGPrivateException(ErrorCode.BELOW_MIN_ORDER_PRICE);
+        
         Integer eachOrderDeliveryFee = getEachOrderDeliveryFee(eachOrderSpec,totalFoodPrice);
         eachOrderSpec.setDeliveryFee(eachOrderDeliveryFee);
 

@@ -1,5 +1,6 @@
 package com.sparta.springadvanced_hh99homework.security;
 
+import com.sparta.springadvanced_hh99homework.exception.HGPrivateException;
 import com.sparta.springadvanced_hh99homework.model.User;
 import com.sparta.springadvanced_hh99homework.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

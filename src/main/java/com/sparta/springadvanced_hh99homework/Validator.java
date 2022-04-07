@@ -1,5 +1,7 @@
 package com.sparta.springadvanced_hh99homework;
 
+import com.sparta.springadvanced_hh99homework.exception.ErrorCode;
+import com.sparta.springadvanced_hh99homework.exception.HGPrivateException;
 import com.sparta.springadvanced_hh99homework.model.Food;
 import com.sparta.springadvanced_hh99homework.model.EachOrderSpecFoodDetail;
 import com.sparta.springadvanced_hh99homework.model.Restaurant;
@@ -10,29 +12,28 @@ import java.util.List;
 
 @Component
 public class Validator {
-    private final String RESTAURANT_HANGUL = "음식점 : ";
-    private final String FOOD_HANGUL = "음식 : ";
 
     public void validateInput(Restaurant receivedRestaurant) {
         if (!isValidName(receivedRestaurant.getName())) {
-            throw new IllegalReceiveException(RESTAURANT_HANGUL + "이름을 입력해주세요");
+            throw new HGPrivateException(ErrorCode.RECHECK_REGISTER_RESTAURANT_NAME);
         }
 
         if (!isValidMinOrderPrice(receivedRestaurant.getMinOrderPrice())) {
-            throw new IllegalReceiveException(RESTAURANT_HANGUL + "최소주문 가격 에러");
+            throw new HGPrivateException(ErrorCode.RECHECK_REGISTER_MIN_ORDER_PRICE);
         }
 
         if (!isValidDeliveryFee(receivedRestaurant.getDeliveryFee())) {
-            throw new IllegalReceiveException(RESTAURANT_HANGUL + "기본 배달비 에러");
+            throw new HGPrivateException(ErrorCode.RECHECK_REGISTER_DELIVERY_FEE);
         }
+
         if (!isValidCordinate(receivedRestaurant.getX(), receivedRestaurant.getY())) {
-            throw new IllegalReceiveException(RESTAURANT_HANGUL + "좌표 에러");
-        }
+            throw new HGPrivateException(ErrorCode.RECHECK_REGISTER_COORDINATE);
+       }
     }
 
     private boolean isValidCordinate(Integer x, Integer y) {
         if (x == null || y == null) {
-            throw new IllegalReceiveException(RESTAURANT_HANGUL + "좌표를 입력해주셔야 합니다.");
+            throw new HGPrivateException(ErrorCode.RECHECK_REGISTER_COORDINATE);
         }
         // X : 0~99 , Y : 0~99 허용
         boolean validX = (0 <= x && x <= 99);
@@ -64,18 +65,18 @@ public class Validator {
 
     public void validateInput(Food receivedFood) {
         if (!isValidName(receivedFood.getName())) {
-            throw new IllegalReceiveException(FOOD_HANGUL + "이름을 입력해주세요");
+            throw new HGPrivateException(ErrorCode.RECHECK_REGISTER_FOOD_NAME);
         }
 
         if (!isValidPrice(receivedFood.getPrice())) {
-            throw new IllegalReceiveException(FOOD_HANGUL + "가격 에러");
+            throw new HGPrivateException(ErrorCode.RECHECK_REGISTER_FOOD_PRICE);
         }
     }
 
     public void validateInput(List<EachOrderSpecFoodDetail> orderRequest) {
         for (EachOrderSpecFoodDetail foodRequestDto : orderRequest) {
             if(!isValidQuantity(foodRequestDto.getQuantity()))
-                throw new IllegalReceiveException(FOOD_HANGUL + "최소 주문 수량을 맞춰주세요.");
+                throw new HGPrivateException(ErrorCode.BELOW_MIN_ORDER_FOOD_NUM);
         }
     }
 

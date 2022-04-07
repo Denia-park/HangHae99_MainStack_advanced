@@ -1,6 +1,8 @@
 package com.sparta.springadvanced_hh99homework.service;
 
 import com.sparta.springadvanced_hh99homework.dto.SignupRequestDto;
+import com.sparta.springadvanced_hh99homework.exception.ErrorCode;
+import com.sparta.springadvanced_hh99homework.exception.HGPrivateException;
 import com.sparta.springadvanced_hh99homework.model.User;
 import com.sparta.springadvanced_hh99homework.model.UserRoleEnum;
 import com.sparta.springadvanced_hh99homework.repository.UserRepository;
@@ -27,7 +29,7 @@ public class UserService {
         String username = requestDto.getUsername();
         Optional<User> found = userRepository.findByUsername(username);
         if (found.isPresent()) {
-            throw new IllegalArgumentException("중복된 사용자 ID 가 존재합니다.");
+            throw new HGPrivateException(ErrorCode.RECHECK_REGISTER_USER_ID);
         }
 
         // 패스워드 암호화
@@ -37,7 +39,7 @@ public class UserService {
         UserRoleEnum role = UserRoleEnum.USER;
         if (requestDto.isAdmin()) {
             if (!requestDto.getAdminToken().equals(ADMIN_TOKEN)) {
-                throw new IllegalArgumentException("사장님 코드가 틀려 등록이 불가능합니다.");
+                throw new HGPrivateException(ErrorCode.RECHECK_REGISTER_OWNER_CODE);
             }
             role = UserRoleEnum.STORE_OWNER;
         }

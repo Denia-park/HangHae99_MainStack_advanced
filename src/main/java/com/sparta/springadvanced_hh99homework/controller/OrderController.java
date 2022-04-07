@@ -3,6 +3,8 @@ package com.sparta.springadvanced_hh99homework.controller;
 import com.sparta.springadvanced_hh99homework.dto.FoodRequestDto;
 import com.sparta.springadvanced_hh99homework.dto.OrderRequestDto;
 import com.sparta.springadvanced_hh99homework.dto.OrderResponseDto;
+import com.sparta.springadvanced_hh99homework.exception.ErrorCode;
+import com.sparta.springadvanced_hh99homework.exception.HGPrivateException;
 import com.sparta.springadvanced_hh99homework.model.Food;
 import com.sparta.springadvanced_hh99homework.model.EachOrderSpec;
 import com.sparta.springadvanced_hh99homework.model.EachOrderSpecFoodDetail;
@@ -68,7 +70,7 @@ public class OrderController {
 
     private Restaurant findRestaurant(OrderRequestDto orderRequestDto) {
         return restaurantRepository.findByRestaurantId(orderRequestDto.getRestaurantId())
-                .orElseThrow(()-> new IllegalArgumentException("해당 음식점 ID는 존재하지 않습니다."));
+                .orElseThrow(()-> new HGPrivateException(ErrorCode.NOT_FOUND_RESTAURANT_ID));
     }
 
     private List<EachOrderSpecFoodDetail> convertDtoToModel(Restaurant findRestaurant, List<FoodRequestDto> foods) {
@@ -76,7 +78,7 @@ public class OrderController {
 
         for (FoodRequestDto foodRequestDto : foods) {
             Food findedFood = foodRepository.findByRestaurantAndFoodId(findRestaurant, foodRequestDto.getId())
-                    .orElseThrow(()-> new IllegalArgumentException("해당 하는 음식은 존재하지 않습니다."));
+                    .orElseThrow(()-> new HGPrivateException(ErrorCode.NOT_FOUND_FOOD_ID));
             eachOrderSpecFoodDetailList.add(new EachOrderSpecFoodDetail(findedFood, foodRequestDto));
         }
 
